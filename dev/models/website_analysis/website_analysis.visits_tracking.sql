@@ -1,6 +1,7 @@
 {{ 
     config(
         tags=["daily"],
+        alias='visits_tracking',
         materialized="incremental",
         inserts_only=True
     )
@@ -11,7 +12,7 @@ with tbl_agg_browser_clicks_data as
     select
         *
     from
-        {{ ref('agg_browser_clicks_data') }}
+        {{ ref('website_analysis.agg_browser_clicks_data') }}
     where 
         event_date = toDate('{{ get_date(var("date")) }}')
 )
@@ -37,7 +38,7 @@ from (
         browser_id_hash, 
         os_name,
         regions,
-        arrayMap(host -> (host, countEqual(referer_hosts, host)), arrayDistinct(referer_hosts)) AS referral_hosts, 
+        arrayMap(host -> (host, countEqual(referrer_hosts, host)), arrayDistinct(referrer_hosts)) AS referral_hosts, 
         number_clicks,
         arrayMap((x, index) -> if((index = 1) or (timelines[index] - timelines[index-1] > 60*30), 1, 0), timelines, arrayEnumerate(timelines)) split_rules,
         arraySplit((x, y) -> y, timelines, split_rules) as sessions,

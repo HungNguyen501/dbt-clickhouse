@@ -1,6 +1,7 @@
 {{ 
     config(
-        tags=["daily"],
+        tags=["monthly"],
+        alias='monthly_website_referrer',
         materialized="incremental",
         inserts_only=True
     )
@@ -11,7 +12,7 @@ with tbl_visits_tracking as (
        domain,
        referral_hosts
     from
-        {{ ref('visits_tracking') }}
+        {{ ref('website_analysis.visits_tracking') }}
     where
         toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
 ),
@@ -43,8 +44,8 @@ tbl_final as (
     from 
         tbl_process as tbl1
     left join  
-        website_analysis.domain_categories as tbl2
-    using domain
+        {{ source('website_analysis', 'domain_categories') }} as tbl2
+    on tbl1.referrer = tbl2.domain
 )
 
 select 

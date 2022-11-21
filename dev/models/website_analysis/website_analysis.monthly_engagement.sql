@@ -1,6 +1,7 @@
 {{ 
     config(
         tags=["monthly"],
+        alias='monthly_engagement',
         materialized="incremental",
         inserts_only=True
     )
@@ -16,7 +17,7 @@ with tbl_visits_tracking as (
         count_pageviews,
         sum_duration
     from 
-        {{ ref('visits_tracking') }}
+        {{ ref('website_analysis.visits_tracking') }}
     where
         toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
 ),
@@ -53,7 +54,7 @@ tbl_final as (
             domain
     ) as tbl1
     left join
-        website_analysis.domain_categories as tbl2
+        {{ source('website_analysis', 'domain_categories') }} as tbl2
     using domain
 )
 

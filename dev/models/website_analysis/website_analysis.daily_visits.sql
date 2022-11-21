@@ -1,6 +1,7 @@
 {{ 
     config(
         tags=["daily"],
+        alias='daily_visits',
         materialized="incremental",
         inserts_only=True
     )
@@ -16,7 +17,7 @@ with tbl_visits_tracking as (
         number_clicks, 
         os_name
     from
-        {{ ref('visits_tracking') }}
+        {{ ref('website_analysis.visits_tracking') }}
     where
         event_date = toDate('{{ get_date(var("date")) }}')
 ),
@@ -50,7 +51,7 @@ tbl_final as (
             domain
     ) as tbl1
     left join 
-        website_analysis.domain_categories as tbl2
+        {{ source('website_analysis', 'domain_categories') }} as tbl2
     using domain
 )
 

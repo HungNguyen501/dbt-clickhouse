@@ -43,10 +43,12 @@ models:
       +materialized: view
       +tags:
         - "hungnguyendinh"
+        - "test_dbt"
 
     website_analysis:
       +schema: website_analysis
       +materialized: view
       +tags:
         - "website_analysis"
+        - "website_analysis_tool"
     

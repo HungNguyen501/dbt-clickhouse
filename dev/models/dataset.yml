@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: browser_clicks
+    database: browser_clicks
+    tables:
+      - name: data
+        tags: ['website_analysis_tool']
+
+  - name: website_analysis
+    database: website_analysis
+    tables:
+      - name: domain_categories
+        tags: ['website_analysis_tool']

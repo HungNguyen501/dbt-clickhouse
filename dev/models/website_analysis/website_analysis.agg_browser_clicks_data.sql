@@ -1,6 +1,7 @@
 {{ 
     config(
         tags=["daily"],
+        alias='agg_browser_clicks_data',
         materialized="incremental",
         inserts_only=True
     )
@@ -10,14 +11,17 @@ with tbl_browser_click_data as
 (
     select 
             *, 
-            domainWithoutWWW(URLDomain) as domain, 
+            case 
+                when domainWithoutWWW(URLDomain) is not null and  domainWithoutWWW(URLDomain) <> '' then domainWithoutWWW(URLDomain)
+                when URLDomain is not null and URLDomain <> '' then URLDomain
+                else '' 
+            end as domain,
             redirect
     from
-            browser_clicks.data
+            {{ source('browser_clicks', 'data') }}
     where
         event_date = toDate('{{ get_date(var("date")) }}')
         and url <> ''
-        and domain <> ''
         and (transition != 255)
         and status = 200
 )

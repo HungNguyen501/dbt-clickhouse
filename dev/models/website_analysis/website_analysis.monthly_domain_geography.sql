@@ -1,6 +1,7 @@
 {{ 
     config(
-        tags=["daily"],
+        tags=["monthly"],
+        alias='monthly_domain_geography',
         materialized="incremental",
         inserts_only=True
     )
@@ -16,7 +17,7 @@ with tbl_visits_tracking as (
         sum_duration,    
         number_clicks
     from
-        {{ ref('visits_tracking') }}
+        {{ ref('website_analysis.visits_tracking') }}
     where
         toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
 ),
