@@ -8,7 +8,7 @@ coccoc_clickhouse:
       password: "{{ env_var('DBT_DEV_PASSWORD') }}"
       #optional fields
       driver: http
-      port: "{{ env_var('DBT_DEV_PORT') }}"
+      port: 8123
       host: "{{ env_var('DBT_DEV_HOST') }}"
       retries: 3
       verify: False
@@ -26,12 +26,12 @@ coccoc_clickhouse:
 
     prod:
       type: clickhouse
-      schema: hungnguyendinh
+      schema: default
       user: "{{ env_var('DBT_PROD_USER') }}"
       password: "{{ env_var('DBT_PROD_PASSWORD') }}"
       #optional fields
       driver: http
-      port: "{{ env_var('DBT_PROD_PORT') }}"
+      port: 443
       host: "{{ env_var('DBT_PROD_HOST') }}"
       retries: 3
       verify: False

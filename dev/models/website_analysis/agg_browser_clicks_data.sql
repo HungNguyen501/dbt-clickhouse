@@ -1,6 +1,7 @@
 {{ 
     config(
-        materialized='incremental', 
+        tags=["daily"],
+        materialized="incremental",
         inserts_only=True
     )
 }}

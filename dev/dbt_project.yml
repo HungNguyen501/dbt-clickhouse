@@ -41,8 +41,12 @@ models:
     hungnguyendinh:
       +schema: hungnguyendinh
       +materialized: view
+      +tags:
+        - "hungnguyendinh"
 
     website_analysis:
       +schema: website_analysis
       +materialized: view
+      +tags:
+        - "website_analysis"
     
