@@ -37,7 +37,7 @@ coccoc_clickhouse:
       verify: False
       secure: True
       cluster: "{{ env_var('DBT_PROD_CLUSTER') }}"
-      # cluster_mode: False
+      cluster_mode: True
       connect_timeout: 7200000
       send_receive_timeout: 300
       sync_request_timeout: 5

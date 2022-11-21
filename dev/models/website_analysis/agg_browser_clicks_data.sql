@@ -10,20 +10,24 @@ with tbl_browser_click_data as
 (
     select 
             *, 
+            domainWithoutWWW(URLDomain) as domain, 
             redirect
     from
             browser_clicks.data
     where
         event_date = toDate('{{ get_date(var("date")) }}')
         and url <> ''
+        and domain <> ''
         and (transition != 255)
         and status = 200
 )
 
 select
     toDate('{{ get_date(var("date")) }}') as event_date,
-    domainWithoutWWW(URLDomain) as domain,
+    now() as processed_time, 
+    domain,
     browser_id,
+    first_value(browser_id_hash) as browser_id_hash, 
     os_name,
     regions,
     arrayFilter(
@@ -34,8 +38,8 @@ select
             groupArray(domainWithoutWWW(redirect))
         )
     ) AS referer_hosts,
-    arraySort(groupArray(toUnixTimestamp(browser_time))) timelines,
-	count(1) as number_clicks
+    count(1) as number_clicks, 
+    arraySort(groupArray(toUnixTimestamp(browser_time))) timelines
 from 
 		tbl_browser_click_data
 group by

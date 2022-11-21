@@ -18,8 +18,10 @@ with tbl_agg_browser_clicks_data as
 
 select
     event_date, 
+    now() as processed_time, 
     domain,
     browser_id,
+    browser_id_hash, 
     os_name,
     regions,
     referral_hosts, 
@@ -32,6 +34,7 @@ from (
         event_date, 
         domain,
         browser_id,
+        browser_id_hash, 
         os_name,
         regions,
         arrayMap(host -> (host, countEqual(referer_hosts, host)), arrayDistinct(referer_hosts)) AS referral_hosts, 
@@ -45,3 +48,5 @@ from (
     from
         tbl_agg_browser_clicks_data
 )
+where 
+    length(stats) > 0
