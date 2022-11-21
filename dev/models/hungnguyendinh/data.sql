@@ -1,0 +1,44 @@
+{{ 
+    config(
+        materialized='incremental'
+    )
+}}
+
+select 
+    revision, 
+    event_date, 
+    event_time, 
+    processed_time, 
+    metrics_hash, 
+    ipv4, 
+    brand, 
+    os_name, 
+    browser_id, 
+    browser_id_hash, 
+    uid, 
+    vid, 
+    age, 
+    gender, 
+    request_format, 
+    browser_time, 
+    tab_id, 
+    status, 
+    transition, 
+    request_id, 
+    request_id_hash, 
+    error, 
+    url, 
+    URLDomain, 
+    referer, 
+    redirects, 
+    prev_url, 
+    latitude, 
+    longitude, 
+    accuracy, 
+    regions, 
+    categories
+from 
+    browser_clicks.data
+where 
+    event_date = toDate('{{ get_date(var("date")) }}')
+limit 100

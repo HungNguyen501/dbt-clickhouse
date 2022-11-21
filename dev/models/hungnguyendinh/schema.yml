@@ -1,0 +1,28 @@
+
+version: 2
+
+models:
+  - name: dbt_test_tbl1
+    description: "table is to test for dbt"
+    columns:
+      - name: event_date
+        description: "column event_date"
+        tests:
+      - name: event_time
+        description: "column event_time"
+        tests:
+      - name: processed_time
+        description: "column processed_time"
+        tests:
+      - name: metrics_hash
+        description: "column metrics_hash"
+        tests:
+      - name: ipv4
+        description: "column ipv4"
+        tests:
+      - name: brand
+        description: "column brand"
+        tests:
+      - name: os_name
+        description: "column os_name"
+        tests:

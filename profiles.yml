@@ -1,0 +1,48 @@
+coccoc_clickhouse:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      schema: hungnguyendinh
+      user: "{{ env_var('DBT_DEV_USER') }}"
+      password: "{{ env_var('DBT_DEV_PASSWORD') }}"
+      #optional fields
+      driver: http
+      port: "{{ env_var('DBT_DEV_PORT') }}"
+      host: "{{ env_var('DBT_DEV_HOST') }}"
+      retries: 3
+      verify: False
+      secure: False
+      cluster: "{{ env_var('DBT_DEV_CLUSTER') }}"
+      cluster_mode: True
+      connect_timeout: 7200000
+      send_receive_timeout: 300
+      sync_request_timeout: 5
+      # compression: 'True'
+      # compress_block_size: 1048576
+      # database_engine: <db_engine>
+      # check_exchange: True
+      # custom_settings: <empty>
+
+    prod:
+      type: clickhouse
+      schema: hungnguyendinh
+      user: "{{ env_var('DBT_PROD_USER') }}"
+      password: "{{ env_var('DBT_PROD_PASSWORD') }}"
+      #optional fields
+      driver: http
+      port: "{{ env_var('DBT_PROD_PORT') }}"
+      host: "{{ env_var('DBT_PROD_HOST') }}"
+      retries: 3
+      verify: False
+      secure: True
+      cluster: "{{ env_var('DBT_PROD_CLUSTER') }}"
+      # cluster_mode: False
+      connect_timeout: 7200000
+      send_receive_timeout: 300
+      sync_request_timeout: 5
+      # compression: False
+      # compress_block_size: 1048576
+      # database_engine: <db_engine>
+      # check_exchange: True
+      # custom_settings: <empty>
