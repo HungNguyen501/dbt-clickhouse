@@ -10,13 +10,19 @@
 with tbl_browser_click_data as 
 (
     select 
-            *, 
-            case 
-                when domainWithoutWWW(URLDomain) is not null and  domainWithoutWWW(URLDomain) <> '' then domainWithoutWWW(URLDomain)
-                when URLDomain is not null and URLDomain <> '' then URLDomain
-                else '' 
-            end as domain,
-            redirect
+        browser_id,
+        browser_id_hash,
+        os_name,
+        regions,
+        referer,
+        prev_url,
+        redirect,
+        browser_time, 
+        case 
+            when domainWithoutWWW(URLDomain) is not null and  domainWithoutWWW(URLDomain) <> '' then domainWithoutWWW(URLDomain)
+            when URLDomain is not null and URLDomain <> '' then URLDomain
+            else '' 
+        end as domain
     from
             {{ source('browser_clicks', 'data') }}
     where

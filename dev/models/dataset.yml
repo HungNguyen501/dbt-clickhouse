@@ -2,13 +2,19 @@ version: 2
 
 sources:
   - name: browser_clicks
-    database: browser_clicks
+    schema: browser_clicks
     tables:
       - name: data
         tags: ['website_analysis_tool']
 
   - name: website_analysis
-    database: website_analysis
+    schema: website_analysis
     tables:
-      - name: domain_categories
+      - name: domain_industries
+        tags: ['website_analysis_tool']
+
+  - name: dmp
+    schema: dmp
+    tables:
+      - name: user_categories
         tags: ['website_analysis_tool']
