@@ -1,5 +1,10 @@
+config:
+    cache_selected_only: true
+    send_anonymous_usage_stats: false
+
 coccoc_clickhouse:
   target: dev
+  
   outputs:
     dev:
       type: clickhouse
@@ -24,6 +29,7 @@ coccoc_clickhouse:
       # database_engine: <db_engine>
       # check_exchange: True
       # custom_settings: <empty>
+
 
     prod:
       type: clickhouse

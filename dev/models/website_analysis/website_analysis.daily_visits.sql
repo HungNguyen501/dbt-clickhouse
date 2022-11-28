@@ -51,7 +51,7 @@ tbl_final as (
             domain
     ) as tbl1
     left join 
-        {{ source('website_analysis', 'domain_categories') }} as tbl2
+        {{ source('website_analysis', 'domain_industries') }} as tbl2
     using domain
 )
 

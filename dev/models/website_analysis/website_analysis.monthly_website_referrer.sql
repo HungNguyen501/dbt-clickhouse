@@ -44,7 +44,7 @@ tbl_final as (
     from 
         tbl_process as tbl1
     left join  
-        {{ source('website_analysis', 'domain_categories') }} as tbl2
+        {{ source('website_analysis', 'domain_industries') }} as tbl2
     on tbl1.referrer = tbl2.domain
 )
 
