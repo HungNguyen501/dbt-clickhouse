@@ -17,9 +17,9 @@ with tbl_visits_tracking as (
         count_pageviews,
         sum_duration
     from 
-        {{ ref('website_analysis.visits_tracking') }}
+        {{ ref('dim_website_visits_tracking') }}
     where
-        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
+        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date_run")) }}'))
 ),
 tbl_final as (
     select      
@@ -31,7 +31,7 @@ tbl_final as (
         tbl1.visits_number_by_os, 
         round(tbl1.pageviews_number/tbl1.visits_number, 2)as page_per_visit, 
         case 
-            when tbl2.category is not null and tbl2.category <> '' then tbl2.category
+            when tbl2.industry is not null and tbl2.industry <> '' then tbl2.industry
             else 'Unknown'
         end as industry
     from (
@@ -59,7 +59,7 @@ tbl_final as (
 )
 
 select 
-	toYYYYMM(toDate('{{ get_date(var("date")) }}')) as month, 
+	toYYYYMM(toDate('{{ get_date(var("date_run")) }}')) as month, 
 	domain, 
     visits_number,
     unique_visitors_number,

@@ -17,13 +17,13 @@ with tbl_visits_tracking as (
         sum_duration,    
         number_clicks
     from
-        {{ ref('website_analysis.visits_tracking') }}
+        {{ ref('dim_website_visits_tracking') }}
     where
-        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
+        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date_run")) }}'))
 ),
 tbl_final as (
     select 
-        toYYYYMM(toDate('{{ get_date(var("date")) }}')) as month, 
+        toYYYYMM(toDate('{{ get_date(var("date_run")) }}')) as month, 
         province_name,
         domain,
         sum(count_sessions) visits_number, 

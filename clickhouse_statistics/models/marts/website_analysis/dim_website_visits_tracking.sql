@@ -15,13 +15,13 @@ with tbl_agg_browser_clicks_data as
         browser_id_hash, 
         os_name,
         regions,
-        referer_hosts,
+        referrer_hosts,
         number_clicks, 
         timelines
     from
-        {{ ref('website_analysis.agg_browser_clicks_data') }}
+        {{ ref('int_agg_browser_clicks_data') }}
     where 
-        event_date = toDate('{{ get_date(var("date")) }}')
+        event_date = toDate('{{ get_date(var("date_run")) }}')
 ),
 tbl_dmp_user_categories as (
     select 
@@ -30,10 +30,10 @@ tbl_dmp_user_categories as (
     from 
         {{ source('dmp', 'user_categories') }}
     where
-        event_date = toDate('{{ get_date(var("date")) }}')
+        event_date = toDate('{{ get_date(var("date_run")) }}')
     
 ),
-tbl1 as (
+tbl_process as (
     select
         domain,
         browser_id,
@@ -69,22 +69,25 @@ tbl1 as (
 ),
 tbl_final as (
     select 
-        toDate('{{ get_date(var("date")) }}') as event_date,
+        toDate('2022-11-18') as event_date,
         now() as processed_time,
         a.domain,
         a.browser_id,
         a.browser_id_hash, 
         a.os_name,
         b.categories as user_categories,
+        a.regions,
         a.referral_hosts, 
         a.number_clicks, 
         a.count_sessions,
         a.count_pageviews,
-        a.sum_duration,
-        a.regions
+        a.sum_duration
     from 
-        tbl1 a
+        tbl_process a
     left join
         tbl_dmp_user_categories b
     using browser_id_hash
 )
+
+select * from tbl_final
+

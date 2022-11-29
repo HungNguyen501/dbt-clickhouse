@@ -2,7 +2,7 @@ config:
     cache_selected_only: true
     send_anonymous_usage_stats: false
 
-coccoc_clickhouse:
+clickhouse_statistics:
   target: dev
   
   outputs:
