@@ -1,4 +1,4 @@
-{% macro get_format_date(date, format, debug=False) %}
+{% macro get_format_date(date, format) %}
 
     {% set date_obj = modules.datetime.datetime.strptime(date|string, "%Y-%m-%d") %}
 
@@ -7,7 +7,7 @@
     {%- elif format == "YYYYMM" -%}
         {% set result = date_obj.strftime("%Y%m") %}
     {%- elif format == "YYYYMMDD" -%}
-        {% set result = date_obj.strftime("%Y%m%D") %}
+        {% set result = date_obj.strftime("%Y%m%d") %}
     {%- elif format == "YYYYMM01" -%}
         {% set result = date_obj.strftime("%Y%m01") %}
     {%- elif format == "YYYYMM31" -%}
@@ -17,10 +17,6 @@
         {% set result = "19701101" %}
     {%- endif -%}
 
-    {%- if debug -%}
-        {{ print(result) }}
-    {%- endif -%}
-
-    {{ return(~ date " (format: " ~ format "): " ~ result) }}
+    {{ return(result) }}
 
 {% endmacro %}
