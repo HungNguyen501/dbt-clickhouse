@@ -1,15 +1,16 @@
-{% macro get_date(date) %}
+{% macro get_date(date, debug=False) %}
 
     {%- if date == '1970-11-20'-%}
+        {% set yesterday = (modules.datetime.datetime.now() - modules.datetime.timedelta(days=1)) %}
+        {% set result = modules.datetime.datetime.strftime(yesterday, "%Y-%m-%d") %}
+    {%- else -%}
+        {% set result = date %}
+    {%- endif -%}
 
-        {% set yesterday = (modules.datetime.datetime.now() - modules.datetime.timedelta(1)) %}
-
-        {% set _date = modules.datetime.datetime.strftime(yesterday, "%Y-%m-%d") %}
-
-        {{ return(_date) }}
-
+    {%- if debug -%}
+        {{ print(result) }}
     {%- endif -%}
     
-    {{ return(date) }}
+    {{ return(result) }}
 
 {% endmacro %}

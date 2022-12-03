@@ -1,20 +1,26 @@
-{% macro get_format_date(date, format) %}
+{% macro get_format_date(date, format, debug=False) %}
 
     {% set date_obj = modules.datetime.datetime.strptime(date|string, "%Y-%m-%d") %}
 
     {%- if format == "YYYY" -%}
-
-        {{ return(date_obj.strftime("%Y")) }}
-    
+        {% set result = date_obj.strftime("%Y") %}
     {%- elif format == "YYYYMM" -%}
-        {{ return(date_obj.strftime("%Y%m")) }}
-    
+        {% set result = date_obj.strftime("%Y%m") %}
     {%- elif format == "YYYYMMDD" -%}
-
-        {{ return(date_obj.strftime("%Y%m%D")) }}
-    
+        {% set result = date_obj.strftime("%Y%m%D") %}
+    {%- elif format == "YYYYMM01" -%}
+        {% set result = date_obj.strftime("%Y%m01") %}
+    {%- elif format == "YYYYMM31" -%}
+        {% set next_month = date_obj.replace(day=28) + modules.datetime.timedelta(days=4) %}
+        {% set result = (next_month - modules.datetime.timedelta(days=next_month.day)).strftime("%Y%m%d") %}
+    {%- else -%}
+        {% set result = "19701101" %}
     {%- endif -%}
 
-    {{ return(19701101) }}
+    {%- if debug -%}
+        {{ print(result) }}
+    {%- endif -%}
+
+    {{ return(~ date " (format: " ~ format "): " ~ result) }}
 
 {% endmacro %}

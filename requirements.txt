@@ -1,2 +1,2 @@
 cryptography~=3.4
-dbt-clickhouse
+dbt-clickhouse==1.3.1

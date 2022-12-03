@@ -1,6 +1,6 @@
 FROM python:3.7-slim-buster
 
-ARG DEBIAN_FRONTEND=noninteractive
+ENV DBT_HOME=/app/clickhouse_statistics/
 
 RUN apt-get update \
     && apt-get install -y tzdata \
@@ -8,14 +8,16 @@ RUN apt-get update \
     && echo "Asia/Ho_Chi_Minh" >  /etc/timezone \
     && apt-get remove -y tzdata
  
-RUN apt-get install -y git libpq-dev python-dev python3-pip \
-    && apt-get remove python-cffi
-
 COPY requirements.txt /
+COPY app /app
 
-RUN pip install --upgrade pip wheel setuptools \
+RUN apt-get install -y -q git libpq-dev python-dev python3-pip \
+    && apt-get remove python-cffi \
+    && pip install --upgrade pip wheel setuptools \
     && pip install --upgrade cffi \
     && pip install -r /requirements.txt
 
-COPY app /app
-WORKDIR /app
+WORKDIR ${DBT_HOME}
+
+# Expose port for dbt docs
+EXPOSE 8080
