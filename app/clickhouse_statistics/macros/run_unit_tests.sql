@@ -1,5 +1,7 @@
 {% macro template_unit_test(func, expected_output, args=[]) %}
 
+    {% if args|length==0 %}
+        {% set result = func() %}
     {% if args|length==1 %}
         {% set result = func(args[0]) %}
     {% elif args|length==2 %}
