@@ -1,11 +1,4 @@
-{{ 
-    config(
-        tags=["daily"],
-        alias='daily_visits',
-        materialized="incremental",
-        inserts_only=True
-    )
-}}
+{% set date_run_at = get_date(var("date_run")) %}
 
 with tbl_visits_tracking as (
     select
@@ -19,11 +12,11 @@ with tbl_visits_tracking as (
     from
         {{ ref('dim_website_visits_tracking') }}
     where
-        event_date = toDate('{{ get_date(var("date_run")) }}')
+        event_date = toDate('{{ date_run_at }}')
 ),
 tbl_final as (
     select 
-        toDate('{{ get_date(var("date_run")) }}') as event_date, 
+        toDate('{{ date_run_at }}') as event_date, 
         tbl1.*,
         case 
             when tbl2.industry is not null and tbl2.industry <> '' then tbl2.industry

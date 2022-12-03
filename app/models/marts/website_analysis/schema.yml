@@ -1,0 +1,52 @@
+version: 2
+
+sources:
+  - name: website_analysis
+    schema: website_analysis
+    tables:
+      - name: domain_industries
+        tags: ["website_analysis_tool"]
+
+models:
+  - name: int_agg_browser_clicks_data
+    config:
+      tags: ["daily"]
+      alias: "agg_browser_clicks_data"
+      materialized: incremental
+      inserts_only: True
+
+  - name: dim_website_visits_tracking
+    config:
+      tags: ["daily"]
+      alias: "visits_tracking"
+      materialized: incremental
+      inserts_only: True
+
+  - name: fct_daily_website_visits
+    config:
+      tags: ["daily"]
+      alias: "daily_visits"
+      materialized: incremental
+      inserts_only: True
+
+  - name: fct_monthly_website_domain_geography
+    config:
+      tags: ["daily", "monthly"]
+      alias: "monthly_domain_geography"
+      materialized: incremental
+      inserts_only: True
+
+  - name: fct_monthly_website_engagement
+    config:
+      tags: ["daily", "monthly"]
+      alias: "monthly_engagement"
+      materialized: incremental
+      inserts_only: True
+
+  - name: fct_monthly_website_referrer
+    config:
+      tags: ["daily", "monthly"]
+      alias: "monthly_website_referrer"
+      materialized: incremental
+      inserts_only: True
+

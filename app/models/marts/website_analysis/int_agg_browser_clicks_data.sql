@@ -1,11 +1,4 @@
-{{ 
-    config(
-        tags=["daily"],
-        alias='agg_browser_clicks_data',
-        materialized="incremental",
-        inserts_only=True
-    )
-}}
+{% set date_run_at = get_date(var("date_run")) %}
 
 with tbl_browser_click_data as 
 (
@@ -24,7 +17,7 @@ with tbl_browser_click_data as
     from
         {{ source('browser_clicks', 'data') }}
     where
-        event_date = toDate('{{ get_date(var("date_run")) }}')
+        event_date = toDate('{{ date_run_at }}')
         and url <> ''
         and (transition != 255)
         and status = 200
@@ -32,7 +25,7 @@ with tbl_browser_click_data as
 )
 
 select
-    toDate('{{ get_date(var("date_run")) }}') as event_date,
+    toDate('{{ date_run_at }}') as event_date,
     now() as processed_time, 
     domain,
     browser_id,

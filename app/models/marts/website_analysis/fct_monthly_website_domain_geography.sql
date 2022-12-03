@@ -1,11 +1,4 @@
-{{ 
-    config(
-        tags=["monthly"],
-        alias='monthly_domain_geography',
-        materialized="incremental",
-        inserts_only=True
-    )
-}}
+{% set date_run_at = get_date(var("date_run")) %}
 
 with tbl_visits_tracking as (
     select
@@ -19,11 +12,11 @@ with tbl_visits_tracking as (
     from
         {{ ref('dim_website_visits_tracking') }}
     where
-        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date_run")) }}'))
+        toYYYYMM(event_date) = toYYYYMM(toDate('{{ date_run_at }}'))
 ),
 tbl_final as (
     select 
-        toYYYYMM(toDate('{{ get_date(var("date_run")) }}')) as month, 
+        toYYYYMM(toDate('{{ date_run_at }}')) as month, 
         province_name,
         domain,
         sum(count_sessions) visits_number, 

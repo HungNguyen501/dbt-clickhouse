@@ -1,11 +1,4 @@
-{{ 
-    config(
-        tags=["daily"],
-        alias='visits_tracking',
-        materialized="incremental",
-        inserts_only=True
-    )
-}}
+{% set date_run_at = get_date(var("date_run")) %}
 
 with tbl_agg_browser_clicks_data as 
 (
@@ -21,7 +14,7 @@ with tbl_agg_browser_clicks_data as
     from
         {{ ref('int_agg_browser_clicks_data') }}
     where 
-        event_date = toDate('{{ get_date(var("date_run")) }}')
+        event_date = toDate('{{ date_run_at }}')
 ),
 tbl_dmp_user_categories as (
     select 
@@ -30,7 +23,7 @@ tbl_dmp_user_categories as (
     from 
         {{ source('dmp', 'user_categories') }}
     where
-        event_date = toDate('{{ get_date(var("date_run")) }}')
+        event_date = toDate('{{ date_run_at }}')
     
 ),
 tbl_process as (

@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: website_analysis
-    schema: website_analysis
-    tables:
-      - name: domain_industries
-        tags: ['website_analysis_tool']

@@ -2,7 +2,7 @@
 
     {% if args|length==0 %}
         {% set result = func() %}
-    {% if args|length==1 %}
+    {% elif args|length==1 %}
         {% set result = func(args[0]) %}
     {% elif args|length==2 %}
         {% set result = func(args[0], args[1]) %}

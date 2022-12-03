@@ -27,6 +27,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Defining variables
 vars:
   date_run: "1970-11-20"
+  monthly_enable: False
 
 
 # Configuring models
