@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: browser_clicks
+    schema: browser_clicks
+    tables:
+      - name: data
+        tags: ['website_analysis_tool']

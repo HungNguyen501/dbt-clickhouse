@@ -12,9 +12,9 @@ with tbl_visits_tracking as (
        domain,
        referral_hosts
     from
-        {{ ref('website_analysis.visits_tracking') }}
+        {{ ref('dim_website_visits_tracking') }}
     where
-        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date")) }}'))
+        toYYYYMM(event_date) = toYYYYMM(toDate('{{ get_date(var("date_run")) }}'))
 ),
 tbl_process as (
     select 
@@ -37,7 +37,7 @@ tbl_final as (
         tbl1.domain,
         tbl1.referrer,
         case 
-            when tbl2.category is not null and tbl2.category <> '' then tbl2.category
+            when tbl2.industry is not null and tbl2.industry <> '' then tbl2.industry
             else 'Unknown'
         end as referrer_industry,
         tbl1.refer_number
@@ -49,7 +49,7 @@ tbl_final as (
 )
 
 select 
-    toYYYYMM(toDate('{{ get_date(var("date")) }}')) as month,
+    toYYYYMM(toDate('{{ get_date(var("date_run")) }}')) as month,
     *
 from
     tbl_final

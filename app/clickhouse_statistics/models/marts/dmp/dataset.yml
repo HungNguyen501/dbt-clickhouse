@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: dmp
+    schema: dmp
+    tables:
+      - name: user_categories
+        tags: ['website_analysis_tool']

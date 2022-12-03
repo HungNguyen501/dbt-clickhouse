@@ -2,12 +2,12 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dev'
+name: 'bi_dmp_data_tranformations'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'coccoc_clickhouse'
+profile: 'clickhouse_statistics'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -26,7 +26,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 # Defining variables
 vars:
-  date: "1970-11-20"
+  date_run: "1970-11-20"
 
 
 # Configuring models
@@ -36,19 +36,29 @@ vars:
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 models:
-  dev:
+  # Be sure to namespace your model configs to your project name
+  bi_dmp_data_tranformations:
     # Config indicated by + and applies to all files under models/example/
-    hungnguyendinh:
+    staging:
       +schema: hungnguyendinh
       +materialized: view
-      +tags:
-        - "hungnguyendinh"
-        - "test_dbt"
+      +tags: ["staging", "hungnguyendinh", "test_dbt"]
 
-    website_analysis:
-      +schema: website_analysis
-      +materialized: view
-      +tags:
-        - "website_analysis"
-        - "website_analysis_tool"
+    marts:
+      +tags: ["marts"]
+      browser_clicks:
+        +schema: browser_clicks
+        +materialized: view
+        +tags: ["browser_clicks"]
+
+      dmp:
+        +schema: dmp
+        +materialized: view
+        +tags: ["dmp"]
+
+      website_analysis:
+        +schema: website_analysis
+        +materialized: view
+        +tags: ["website_analysis", "website_analysis_tool"]
+  
     

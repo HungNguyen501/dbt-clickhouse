@@ -17,16 +17,16 @@ with tbl_visits_tracking as (
         number_clicks, 
         os_name
     from
-        {{ ref('website_analysis.visits_tracking') }}
+        {{ ref('dim_website_visits_tracking') }}
     where
-        event_date = toDate('{{ get_date(var("date")) }}')
+        event_date = toDate('{{ get_date(var("date_run")) }}')
 ),
 tbl_final as (
     select 
-        toDate('{{ get_date(var("date")) }}') as event_date, 
+        toDate('{{ get_date(var("date_run")) }}') as event_date, 
         tbl1.*,
         case 
-            when tbl2.category is not null and tbl2.category <> '' then tbl2.category
+            when tbl2.industry is not null and tbl2.industry <> '' then tbl2.industry
             else 'Unknown'
         end as industry
     from (
