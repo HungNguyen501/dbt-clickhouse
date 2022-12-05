@@ -23,6 +23,9 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+  - "logs"
+
+log-path: "logs/{{ target.name }}/{{ run_started_at.strftime('%Y-%m-%d_%H:%M:%S.%f') }}"
 
 # Defining variables
 vars:
