@@ -1,8 +1,11 @@
-import os 
-from telegram import Bot
-import click
-from loguru import logger
+#!/usr/bin/env python3
+
+import os
+import sys
 import json
+from telegram import Bot
+from loguru import logger
+from datetime import datetime
 
 
 DBT_TARGET = os.environ['DBT_TARGET']
@@ -12,43 +15,31 @@ CHAT_ID = os.environ['CHAT_ID']
 bot = Bot(token=API_TOKEN)
 
 
-@click.command()
-@click.option('-r', '--run_time_at', type=click.STRING, default=None, help='run_time_at as folder name for dbt log file')
 @logger.catch
-def main(run_time_at):
-    try:
-        if not run_time_at:
-            logger.info(f"param run_time_at is None")
-            exit(0)
+def main():
+        full_log = ""
+        error_log = ""
 
-        with open(file=f"logs/{DBT_TARGET}/{run_time_at}/dbt.log") as fi:
-            full_log = ""
-            error_log = ""
-            line = fi.readline().rstrip()
-            while line:
-                dict_row = json.loads(line)
-                if 'msg' not in dict_row.keys():
-                    continue
-                
-                full_log += (dict_row['msg'] + '\n')
-
-                if "\"level\": \"error\"" in line:
-                    error_log += (dict_row['msg'] + '\n')
-                
-                line = fi.readline().rstrip()
+        # Read output line by line
+        for line in sys.stdin.readlines():
+            dict_row = json.loads(line)
+            if 'msg' not in dict_row.keys():
+                continue
             
-            if not error_log:
-                logger.info("error_log is empty")
-                exit(0)
-            
-            error_log = f"[dbt_job_at_{run_time_at}]\n" + error_log
-            logger.info(error_log)
+            logger.info(f"{dict_row['msg']}")
+            full_log += (dict_row['msg'] + '\n')
 
-            bot.send_message(chat_id=CHAT_ID, text=error_log)
-            bot.send_document(chat_id=CHAT_ID, document=str.encode(full_log), filename=f"dbt_job_at_{run_time_at}.txt")
+            if "\"level\": \"error\"" in line:
+                error_log += (dict_row['msg'] + '\n')
         
-    except Exception as exp:
-        logger.error(exp)
+        if not error_log:
+            exit(0)
+        
+        log_title = f"dbt_job_{datetime.now().strftime('%Y-%m-%d_%H:%M_%S.%f')}"
+        error_log = f"[{log_title}]\n" + error_log
+
+        bot.send_message(chat_id=CHAT_ID, text=error_log)
+        bot.send_document(chat_id=CHAT_ID, document=str.encode(full_log), filename=f"{log_title}.log")
 
 if __name__=='__main__':
     main()

@@ -1,6 +1,7 @@
 config:
     cache_selected_only: true
     send_anonymous_usage_stats: false
+    use_colors: False
 
 clickhouse_statistics:
   target: dev
