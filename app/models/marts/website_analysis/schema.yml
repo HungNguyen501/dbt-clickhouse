@@ -31,21 +31,21 @@ models:
 
   - name: fct_monthly_website_domain_geography
     config:
-      tags: ["daily", "monthly"]
+      tags: ["monthly"]
       alias: "monthly_domain_geography"
       materialized: incremental
       inserts_only: True
 
   - name: fct_monthly_website_engagement
     config:
-      tags: ["daily", "monthly"]
+      tags: ["monthly"]
       alias: "monthly_engagement"
       materialized: incremental
       inserts_only: True
 
   - name: fct_monthly_website_referrer
     config:
-      tags: ["daily", "monthly"]
+      tags: ["monthly"]
       alias: "monthly_website_referrer"
       materialized: incremental
       inserts_only: True

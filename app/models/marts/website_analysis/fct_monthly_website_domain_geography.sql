@@ -1,3 +1,8 @@
+{% set today = run_started_at.astimezone(modules.pytz.timezone('Asia/Ho_Chi_Minh')).strftime('%Y-%m-%d') %}
+{% if var('trigger_monthly_model') or today == get_format_date(today, 'YYYY-MM-01') %}
+    {{ config(tags=["daily"]) }}
+{% endif %}
+
 {% set date_run_at = get_date(var("date_run")) %}
 
 with tbl_visits_tracking as (

@@ -10,6 +10,8 @@
         {% set result = date_obj.strftime("%Y%m%d") %}
     {%- elif format == "YYYYMM01" -%}
         {% set result = date_obj.strftime("%Y%m01") %}
+    {%- elif format == "YYYY-MM-01" -%}
+        {% set result = date_obj.strftime("%Y-%m-01") %}
     {%- elif format == "YYYYMM31" -%}
         {% set next_month = date_obj.replace(day=28) + modules.datetime.timedelta(days=4) %}
         {% set result = (next_month - modules.datetime.timedelta(days=next_month.day)).strftime("%Y%m%d") %}

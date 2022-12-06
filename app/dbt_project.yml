@@ -30,7 +30,7 @@ log-path: "logs/{{ target.name }}/{{ run_started_at.astimezone(modules.pytz.time
 # Defining variables
 vars:
   date_run: "1970-11-20"
-
+  trigger_monthly_model: False
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

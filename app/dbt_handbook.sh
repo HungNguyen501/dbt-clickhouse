@@ -14,6 +14,8 @@ dbt run-operation --profiles-dir ./ --target dev test
 # Run dbt
 dbt run --profiles-dir ./ --target dev
 dbt run --profiles-dir ./ --target dev --vars '{"date_run": "2022-11-17"}'
+dbt run --profiles-dir ./ --target dev --vars '{"date_run": "2022-11-17"}' --select daily
+dbt run --profiles-dir ./ --target dev --vars '{"date_run": "2022-11-17", "trigger_monthly_model": True}' --select tag:daily
 dbt run --profiles-dir ./ --target dev --vars '{"date_run": "2022-11-17"}' --select website_analysis
 dbt run --profiles-dir ./ --target dev --vars '{"date_run": "2022-11-17"}' --select tag:website_analysis_tool
 dbt --log-format json run --profiles-dir ./ --target dev --vars "{'date_run': 2022-11-17}" --select tag:daily | alert_bot/main.py
