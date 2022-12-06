@@ -25,12 +25,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
   - "logs"
 
-log-path: "logs/{{ target.name }}/{{ run_started_at.strftime('%Y-%m-%d_%H:%M:%S.%f') }}"
+log-path: "logs/{{ target.name }}/{{ var('run_time_at', run_started_at.astimezone(modules.pytz.timezone('Asia/Ho_Chi_Minh')).strftime('%Y-%m-%d_%H:%M:%S.%f')) }}"
 
 # Defining variables
 vars:
   date_run: "1970-11-20"
-  monthly_enable: False
+  run_time_at: "1970-11-20_12:00:00.000001"
 
 
 # Configuring models
