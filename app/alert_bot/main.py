@@ -40,6 +40,8 @@ def main():
 
         bot.send_message(chat_id=CHAT_ID, text=error_log)
         bot.send_document(chat_id=CHAT_ID, document=str.encode(full_log), filename=f"{log_title}.log")
+        
+        exit(1)
 
 if __name__=='__main__':
     main()
